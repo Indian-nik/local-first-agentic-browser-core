@@ -1,0 +1,59 @@
+{
+  "timestamp": "2025-10-25T10:16:21.688287",
+  "application": "CONDA Desktop v1.0.0",
+  "results": {
+    "passed": [
+      "File exists: package.json",
+      "File exists: vite.config.js",
+      "File exists: src/main/index.js",
+      "File exists: src/preload/index.js",
+      "File exists: src/renderer/App.jsx",
+      "File exists: src/renderer/main.jsx",
+      "File exists: src/renderer/App.css",
+      "File exists: public/index.html",
+      "Context isolation enabled",
+      "Node integration disabled",
+      "Remote module disabled",
+      "No hardcoded secrets",
+      "Package.json valid",
+      "Build scripts configured",
+      "electron-builder configured",
+      "No executable JS files",
+      "Code metrics calculated",
+      "Context Isolation",
+      "Node Integration Disabled",
+      "Remote Module Disabled",
+      "Web Preferences Configured"
+    ],
+    "failed": [
+      "Syntax error in main.jsx",
+      "Syntax error in App.jsx",
+      "Syntax error in DocsPage.jsx",
+      "Syntax error in HomePage.jsx",
+      "Syntax error in ThemeEditorPage.jsx",
+      "Syntax error in PlaygroundPage.jsx",
+      "Syntax error in ComponentsPage.jsx"
+    ],
+    "warnings": [
+      "XSS risk in PlaygroundPage.jsx",
+      "XSS risk in ComponentsPage.jsx"
+    ],
+    "info": [
+      "Valid syntax: index.js",
+      "Valid syntax: index.js",
+      "Dependencies: 3 packages",
+      "Dev Dependencies: 4 packages",
+      "electron: ^28.0.0",
+      "react: ^18.2.0",
+      "vite: ^5.0.0",
+      "Total lines of code: 956",
+      "JavaScript/JSX files: 9"
+    ]
+  },
+  "summary": {
+    "passed": 21,
+    "failed": 7,
+    "warnings": 2,
+    "info": 9
+  }
+}

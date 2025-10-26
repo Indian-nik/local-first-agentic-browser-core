@@ -1,0 +1,53 @@
+{
+  "dashboard": {
+    "title": "Agentic Browser - Observability",
+    "tags": [
+      "agentic",
+      "observability"
+    ],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Reasoning Steps Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(agentic_reasoning_steps_total[5m])",
+            "legendFormat": "{{ component }}"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Tool Call Latency",
+        "type": "heatmap",
+        "targets": [
+          {
+            "expr": "rate(agentic_tool_call_duration_seconds_bucket[5m])"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Decision Confidence",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "avg(agentic_decision_confidence)"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(agentic_errors_total[5m])"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+# Elasticsearch Configuration for Agentic Tracing
+cluster.name: agentic-browser-cluster
+node.name: agentic-node-1
+
+network.host: 0.0.0.0
+http.port: 9200
+
+# Index lifecycle management
+xpack.ilm.enabled: true
+
+# Security settings
+xpack.security.enabled: false
+
+# Performance tuning
+bootstrap.memory_lock: true
+indices.memory.index_buffer_size: 30%
+
+# Index templates for agentic traces
+# Applied via API after startup

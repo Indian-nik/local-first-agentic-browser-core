@@ -1,0 +1,30 @@
+# Include documentation
+include README.md
+include LICENSE
+include INSTALL.md
+include requirements.txt
+include pyproject.toml
+
+# Include all markdown documentation
+recursive-include docs *.md
+recursive-include docs *.rst
+
+# Include configuration files
+recursive-include cybercore/config *.yaml *.yml *.json *.toml
+recursive-include config *.yaml *.yml *.json *.toml
+
+# Include scripts
+recursive-include scripts *.sh *.py
+
+# Include tests
+recursive-include tests *.py
+
+# Exclude build artifacts
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *.pyd
+global-exclude __pycache__
+global-exclude *.so
+global-exclude *.dylib
+global-exclude .DS_Store
+global-exclude .git*

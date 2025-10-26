@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # CyberCore Main Engine
+  cybercore:
+    build:
+      context: .
+      dockerfile: Dockerfile.cybercore
+    container_name: cybercore-engine
+    ports:
+      - "8000:8000"
+      - "8443:8443"
+    volumes:
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+      - ./data:/app/data
+    environment:
+      - CYBERCORE_MODE=testing
+      - AUTHORIZATION_REQUIRED=true
+      - AUDIT_LOGGING=enabled
+    networks:
+      - cybercore-net
+    depends_on:
+      - postgres
+      - redis
+
+  # PostgreSQL for audit logs
+  postgres:
+    image: postgres:15-alpine
+    container_name: cybercore-db
+    environment:
+      - POSTGRES_USER=cybercore
+      - POSTGRES_PASSWORD=SecurePass2025!
+      - POSTGRES_DB=cybercore_audit
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - cybercore-net
+
+  # Redis for caching and task queue
+  redis:
+    image: redis:7-alpine
+    container_name: cybercore-redis
+    networks:
+      - cybercore-net
+
+  # Vulnerable web app for testing (DVWA)
+  dvwa:
+    image: vulnerables/web-dvwa
+    container_name: test-target-dvwa
+    ports:
+      - "8080:80"
+    networks:
+      - cybercore-net
+
+  # Juice Shop for testing
+  juiceshop:
+    image: bkimminich/juice-shop
+    container_name: test-target-juiceshop
+    ports:
+      - "3000:3000"
+    networks:
+      - cybercore-net
+
+networks:
+  cybercore-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
+
+volumes:
+  postgres-data:

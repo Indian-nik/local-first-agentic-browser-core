@@ -1,0 +1,102 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agentic-browser
+  namespace: production
+  labels:
+    app: agentic-browser
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: agentic-browser
+  template:
+    metadata:
+      labels:
+        app: agentic-browser
+        version: v1
+    spec:
+      containers:
+      - name: agent-core
+        image: ghcr.io/your-org/agent-core:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: PROMETHEUS_ADDR
+          value: "prometheus:9090"
+        - name: LOG_LEVEL
+          value: "info"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      
+      - name: reasoning-engine
+        image: ghcr.io/your-org/reasoning-engine:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: AGENT_CORE_URL
+          value: "http://localhost:8080"
+        - name: ELASTICSEARCH_URL
+          value: "http://elasticsearch:9200"
+        volumeMounts:
+        - name: local-data
+          mountPath: /app/data
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+      
+      volumes:
+      - name: local-data
+        persistentVolumeClaim:
+          claimName: agentic-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: agentic-browser
+  namespace: production
+spec:
+  selector:
+    app: agentic-browser
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+  - name: core
+    port: 8080
+    targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: agentic-data-pvc
+  namespace: production
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi

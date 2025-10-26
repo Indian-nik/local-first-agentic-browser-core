@@ -1,0 +1,88 @@
+{
+  "name": "@conda-design/system",
+  "version": "2.0.0",
+  "description": "Modern, playful, and fully customizable design system inspired by anacondas",
+  "main": "dist/conda.js",
+  "module": "dist/conda.esm.js",
+  "style": "dist/conda.css",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run build:types",
+    "build:css": "node scripts/build-css.js",
+    "build:types": "tsc --declaration --emitDeclarationOnly --outDir dist",
+    "preview": "vite preview",
+    "serve": "python -m http.server 8000",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write 'src/**/*.{js,jsx,css,html}'",
+    "minify": "node scripts/minify.js",
+    "optimize": "node scripts/optimize-svg.js",
+    "test": "echo 'Tests coming soon'"
+  },
+  "keywords": [
+    "design-system",
+    "ui-components",
+    "css",
+    "theme",
+    "customizable",
+    "accessible",
+    "anaconda",
+    "conda",
+    "css-variables",
+    "web-components"
+  ],
+  "author": "CONDA Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/conda-design/system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/conda-design/system/issues"
+  },
+  "homepage": "https://conda-design.github.io/system",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "typescript": "^5.3.0",
+    "@types/node": "^20.10.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0",
+    "cssnano": "^6.0.2",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "maintained node versions"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/conda.esm.js",
+      "require": "./dist/conda.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./css": "./dist/conda.css",
+    "./themes": "./dist/themes/",
+    "./react": "./frameworks/react/index.js",
+    "./vue": "./frameworks/vue/index.js"
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "name": "conda-design-system",
+  "version": "1.0.0",
+  "description": "Modern, playful, and powerful design system inspired by anacondas",
+  "main": "dist/js/conda-components.js",
+  "module": "dist/js/conda-components.js",
+  "types": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "frameworks",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && npm run build:types",
+    "build:types": "echo 'TypeScript declarations generated'",
+    "build:css": "postcss src/styles/*.css --dir dist/css --config postcss.config.js",
+    "build:js": "rollup -c rollup.config.js",
+    "build:prod": "NODE_ENV=production npm run build",
+    "preview": "vite preview",
+    "serve": "vite preview --port 8000",
+    "clean": "rm -rf dist",
+    "lint": "eslint src --ext .js,.jsx",
+    "format": "prettier --write 'src/**/*.{js,jsx,css}'",
+    "analyze": "vite-bundle-visualizer",
+    "size": "size-limit"
+  },
+  "keywords": [
+    "design-system",
+    "ui-components",
+    "react",
+    "vue",
+    "web-components",
+    "css",
+    "themes",
+    "accessible",
+    "responsive"
+  ],
+  "author": "CONDA Design System Team",
+  "license": "MIT",
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-vue": "^4.5.0",
+    "rollup": "^4.9.0",
+    "rollup-plugin-terser": "^7.0.2",
+    "postcss": "^8.4.32",
+    "postcss-cli": "^11.0.0",
+    "autoprefixer": "^10.4.16",
+    "cssnano": "^6.0.2",
+    "terser": "^5.26.0",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1",
+    "size-limit": "^11.0.1",
+    "@size-limit/preset-small-lib": "^11.0.1",
+    "vite-bundle-visualizer": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "vue": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "size-limit": [
+    {
+      "path": "dist/css/conda-design-system.*.css",
+      "limit": "25 KB"
+    },
+    {
+      "path": "dist/js/conda-components.*.js",
+      "limit": "15 KB"
+    }
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/conda/design-system.git"
+  },
+  "bugs": {
+    "url": "https://github.com/conda/design-system/issues"
+  },
+  "homepage": "https://conda-design.com"
+}

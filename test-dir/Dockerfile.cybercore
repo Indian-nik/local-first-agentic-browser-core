@@ -1,0 +1,56 @@
+# CyberCore Ultimate v5.0 - Dockerfile
+# Base: Python 3.11 with security tools
+
+FROM python:3.11-slim-bookworm
+
+# Metadata
+LABEL maintainer="CyberCore Team"
+LABEL version="5.0.0"
+LABEL description="CyberCore Ultimate - Next-Gen Security Framework"
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1 \
+    CYBERCORE_VERSION=5.0.0
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc g++ make \
+    git curl wget \
+    nmap nikto sqlmap \
+    libssl-dev libffi-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create app directory
+WORKDIR /app
+
+# Copy requirements first (for caching)
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Copy application code
+COPY cybercore_v5/ ./cybercore_v5/
+COPY *.md ./
+
+# Create necessary directories
+RUN mkdir -p /app/logs /app/reports /app/data
+
+# Expose ports
+EXPOSE 8000 8443
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+  CMD python -c "import cybercore_v5; print('healthy')" || exit 1
+
+# Run as non-root user
+RUN useradd -m -u 1000 cybercore && \
+    chown -R cybercore:cybercore /app
+USER cybercore
+
+# Default command
+CMD ["python", "-m", "cybercore_v5"]
