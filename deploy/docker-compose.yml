@@ -3,7 +3,7 @@ version: '3.9'
 services:
   go-gateway:
     image: ghcr.io/your-org/conda-go-gateway:latest
-    build: ./src/backend/go-gateway
+    build: .src/backend/agent-core-golang/main.go
     ports:
       - "8080:8080"
     environment:
