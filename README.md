@@ -15,6 +15,100 @@ The Local-First Agentic Browser Core is an innovative multi-agent system that co
 - **🔒 Security-First**: Built-in security measures and access controls
 - **🌐 Microservices Architecture**: Scalable and maintainable service-oriented design
 
+
+
+## 📁 Project Structure
+
+This project follows a modern, modular directory structure designed for scalability and maintainability:
+
+### Core Directories
+
+#### `/docs` - Documentation Hub
+Comprehensive project documentation including:
+- Architecture guides and design decisions
+- API documentation and specifications
+- Installation and deployment guides  
+- Development workflows and best practices
+- Consolidated from root-level documentation files
+
+#### `/deploy` - Deployment Configurations
+Production-ready deployment assets:
+- Docker Compose configurations for multi-container setups
+- Kubernetes manifests and Helm charts
+- Environment-specific configuration templates
+- CI/CD pipeline definitions
+- Deployment scripts and automation tools
+
+#### `/src` - Source Code
+Organized by functional domain:
+
+- **`/src/backend`** - Python Backend Services
+  - REST API endpoints and business logic
+  - Database models and migrations
+  - Authentication and authorization
+  - Background task processors
+  - **Dependencies**: `requirements.txt` now located here
+  
+- **`/src/frontend`** (`/src/renderer`) - React/TypeScript Frontend
+  - UI components and pages
+  - State management and routing
+  - API client integrations
+  - **Dependencies**: `package.json` located here
+  
+- **`/src/agent`** - Intelligent Agent Core
+  - Agent reasoning engine
+  - Task orchestration and workflow management
+  - Plugin system architecture
+  - Multi-modal processing capabilities
+
+#### `/infra` - Infrastructure as Code
+Infrastructure provisioning and management:
+- Terraform/OpenTofu configurations
+- Kubernetes cluster definitions
+- Networking and security policies
+- Monitoring and observability setup (Prometheus, Grafana)
+- Infrastructure automation scripts
+
+#### `/scripts` - Utility Scripts
+Automation and helper scripts:
+- Build and compilation scripts
+- Setup and initialization utilities
+- Database migration runners
+- Development environment bootstrapping
+- Testing and QA automation
+
+#### `/examples` - Usage Examples
+Demonstration code and tutorials:
+- Sample configurations
+- Integration examples
+- Quick-start guides
+- Best practice implementations
+
+#### `/.github` - GitHub Integration
+GitHub-specific configurations:
+- CI/CD workflows (GitHub Actions)
+- Issue and PR templates
+- Dependabot configuration
+- Security policies and workflows
+
+#### `/tests` - Test Suite
+Comprehensive testing framework:
+- Unit tests
+- Integration tests
+- End-to-end tests
+- Test fixtures and mocks
+- Performance benchmarks
+
+### Dependency Management
+
+Language-specific dependency files are now located within their respective source directories:
+
+- **Python (Backend)**: `src/backend/requirements.txt`
+- **Node.js (Frontend)**: `src/renderer/package.json`
+- **Go (if applicable)**: `agent-core-golang/go.mod`
+
+This organization ensures clear dependency isolation and simplifies containerization.
+
 ## 📋 Prerequisites
 
 - **Docker** 20.10+ and Docker Compose
