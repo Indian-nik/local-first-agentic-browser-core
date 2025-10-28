@@ -1,1 +1,96 @@
+version: '3.9'
+
+services:
+  go-gateway:
+    image: ghcr.io/your-org/conda-go-gateway:latest
+    build: ./src/backend/go-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - CONFIG_FILE=/deploy/config/gateway.yaml
+    networks:
+      - conda-net
+
+  python-agent:
+    image: ghcr.io/your-org/conda-python-agent:latest
+    build: ./src/conda
+    command: "python main.py"
+    depends_on:
+      - go-gateway
+    environment:
+      - CONFIG_FILE=/deploy/config/agent.yaml
+    networks:
+      - conda-net
+
+  c-inference:
+    image: ghcr.io/your-org/conda-inference:latest
+    build: ./src/backend/inference-kernel-c
+    command: "./inference"
+    depends_on:
+      - python-agent
+    environment:
+      - MODEL_PATH=/models/
+    networks:
+      - conda-net
+
+  frontend:
+    image: ghcr.io/your-org/conda-frontend:latest
+    build: ./src/frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - go-gateway
+    networks:
+      - conda-net
+
+  efk-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
+    environment:
+      - discovery.type=single-node
+    networks:
+      - conda-net
+    restart: always
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+
+  efk-fluentd:
+    image: fluent/fluentd:v1.16
+    build: ./deploy/logging/fluentd
+    depends_on:
+      - efk-elasticsearch
+    networks:
+      - conda-net
+
+  efk-kibana:
+    image: docker.elastic.co/kibana/kibana:8.6.0
+    ports:
+      - "5601:5601"
+    depends_on:
+      - efk-elasticsearch
+    networks:
+      - conda-net
+
+  prometheus:
+    image: prom/prometheus:latest
+    build: ./deploy/monitoring/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - conda-net
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - conda-net
+
+networks:
+  conda-net:
+    driver: bridge
+
+volumes:
+  esdata:
 
