@@ -24,7 +24,7 @@ redis>=5.0.0
 sqlalchemy>=2.0.0
 
 # Cryptography
-cryptography>=41.0.0
+cryptography>=46.0.5
 pycryptodome>=3.19.0
 
 # Blockchain
